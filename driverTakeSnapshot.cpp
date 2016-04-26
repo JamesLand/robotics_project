@@ -8,6 +8,10 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
+const int LANDMARK_VGO = 1;
+const int LANDMARK_RBG = 2; 
+const int LANDMARK_OVB = 3;
+
 void callback(const sensor_msgs::ImageConstPtr& msg)
 {
 	cv_bridge::CvImagePtr cvImagePtr;
@@ -75,13 +79,13 @@ void callback(const sensor_msgs::ImageConstPtr& msg)
 
 		for (int i = 0; i < 5; i++)
 		{
-			cv::Mat imageFilter;
+			/*cv::Mat imageFilter;
 			cv::inRange(imageHSV, cv::Scalar(lowArr[i], 20, 20), cv::Scalar(highArr[i], 255, 255), imageFilter);
 			char numstr[21];
 			sprintf(numstr, "result%d.png", i);
 			std::string fileName = numstr;
 			cv::imwrite(fileName, imageFilter);
-
+*/
 
 		}
 
@@ -91,6 +95,27 @@ void callback(const sensor_msgs::ImageConstPtr& msg)
 	{
 		ROS_ERROR("cv_bridge exception: %s", e.what());
 	}
+}
+
+/*
+ * Using the image detected by the robot, performs the necessary landmark recognition algorithms.
+ * http://www.learnopencv.com/blob-detection-using-opencv-python-c/
+ * http://docs.opencv.org/trunk/d0/d7a/classcv_1_1SimpleBlobDetector.html#gsc.tab=0
+ */
+int detectLandmarks(cv::Mat &rgbImage)
+{
+	//Convert code from RGB to HSV
+	cv::Mat imageHSV;
+	cv::cvtColor(mat, imageHSV, CV_RGB2HSV);
+
+	//Thresholding for the five different colors:
+	//Red, Orange, Green, Blue, and Violet.
+
+	//Blob detection for each type of color
+
+	//Blob proximity logic - are the blobs close enough to each other, and oriented
+	//in such a way as to believe that there is a landmark?
+	//If so, return the appropriate integer value. Constants defined at the top.
 }
 
 int main(int argc, char** argv)
