@@ -111,7 +111,28 @@ int detectLandmarks(cv::Mat &rgbImage)
 	//Thresholding for the five different colors:
 	//Red, Orange, Green, Blue, and Violet.
 
+	cv::Mat redThreshold;
+	cv::Mat redPart1;
+	cv::Mat redPart2;
+	cv::inRange(imageHSV, cv::Scalar(0, 20, 20), cv::Scalar(10, 255, 255), redPart1);
+	cv::inRange(imageHSV, cv::Scalar(170, 20, 20), cv::Scalar(180, 255, 255), redPart2);
+
+	redThreshold = redPart1 | redPart2;
+
+	cv::Mat orangeThreshold;
+	cv::inRange(imageHSV, cv::Scalar(15, 20, 20), cv::Scalar(30, 255, 255), redPart1);
+
+	cv::Mat greenThreshold;
+	cv::inRange(imageHSV, cv::Scalar(38, 20, 20), cv::Scalar(70, 255, 255), redPart1);
+
+	cv::Mat blueThreshold;
+	cv::inRange(imageHSV, cv::Scalar(75, 20, 20), cv::Scalar(120, 255, 255), redPart1);
+
+	cv::Mat violetThreshold;
+	cv::inRange(imageHSV, cv::Scalar(130, 20, 20), cv::Scalar(165, 255, 255), redPart1);
+
 	//Blob detection for each type of color
+
 
 	//Blob proximity logic - are the blobs close enough to each other, and oriented
 	//in such a way as to believe that there is a landmark?
